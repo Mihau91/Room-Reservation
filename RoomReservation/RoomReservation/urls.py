@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from room_app.views import MainPage
+from room_app.views import MainPage, AddRoom
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainPage.as_view(), name='main-page'),
+    path('add-room/', AddRoom.as_view(), name='add-room')
 ]
