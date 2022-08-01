@@ -1,6 +1,7 @@
+import datetime
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import ConferenceRoom
+from .models import ConferenceRoom, RoomReservation
 
 
 # Create your views here.
@@ -95,7 +96,31 @@ class ModifyRoom(View):
         return redirect("room-list")
 
 
-class RoomReservation(View):
+class RoomReservations(View):
+    """
+    Renders template with form for room reservation,
+    Checks inputs and create reservation in database.
+    """
+
     def get(self, request, room_id):
         room = ConferenceRoom.objects.get(id=room_id)
         return render(request, "room-reservation.html", context={"room": room})
+
+    def post(self, request, room_id):
+        # takes data from form
+        room = ConferenceRoom.objects.get(id=room_id)
+        date = request.POST.get('reservation-date')
+        comment = request.POST.get("comment")
+
+        # checks if date is set.
+        if not date:
+            return render(request, "room-reservation.html", context={"room": room, "error": "Set a date!"})
+        # checks if room isn't reserved.
+        if RoomReservation.objects.filter(room_id=room, date=date):
+            return render(request, "room-reservation.html", context={"room": room, "error": "Room is already reserved"})
+        # checks if date is not from past.
+        if date < str(datetime.date.today()):
+            return render(request, "room-reservation.html", context={"room": room, "error": "Date is from the past"})
+
+        RoomReservation.objects.create(room_id=room, date=date, comment=comment)
+        return redirect("room-list")

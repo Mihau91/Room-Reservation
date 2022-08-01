@@ -5,7 +5,6 @@
     <title>Edit Room</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
-    <link rel="stylesheet" href="{% static 'error.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'style_form.css' %}" type="text/css">
 </head>
 <body>
@@ -22,7 +21,7 @@
 <!-- error -->
 {% if error %}
 <div class="center">
-<p>{{error}}</p>
+<p style="color: red">{{error}}</p>
 </div>
 {% endif %}
 
