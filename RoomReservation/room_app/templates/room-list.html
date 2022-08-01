@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'table.css' %}" type="text/css">
+</head>
+<body>
+<h2>Room Reservation System</h2>
+<!-- Nav -->
+<div class="nav">
+  <ul>
+    <li><a href="" class="nav-link">Home</a></li>
+    <li><a href="/room-list/" class="nav-link"><em>Rooms list</em></a></li>
+    <li><a href="/add-room/" class="nav-link">Add Room</a></li>
+  </ul>
+</div>
+<!-- Nav -->
+
+<!-- Table -->
+<body>
+ <div id="wrapper">
+  <table id="keywords" cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+        <th><span>Room ID</span></th>
+        <th><span>Name</span></th>
+        <th><span>Capacity</span></th>
+        <th><span>Availability</span></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for room in rooms %}
+      <tr>
+        <th>{{room.id}}</th>
+        <td>{{room.room_name}}</td>
+        <td>{{room.room_capacity}}</td>
+        {% if room.projector_availability %}
+        <td>&#9745;</td>
+        {% else %}
+        <td>&#9746;</td>
+        {% endif %}
+        <td></td>
+        <td>Edit</td>
+        <td>Delete</td>
+        <td>Reserve</td>
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+ </div>
+</body>
+<!-- Table -->
+
+<!-- Footer -->
+<div class="footer">
+  <p>Author: Michal Czarnecki</p>
+</div>
+<!-- Footer -->
+</body>
+</html>
