@@ -6,7 +6,7 @@ from .models import ConferenceRoom
 # Create your views here.
 class MainPage(View):
     """
-    Renders main page template
+    Renders main page template.
     """
 
     def get(self, request):
@@ -15,7 +15,7 @@ class MainPage(View):
 
 class AddRoom(View):
     """
-    Renders template with form and added data provided by user to the database
+    Renders template with form and added data provided by user to the database.
     """
 
     def get(self, request):
@@ -42,13 +42,54 @@ class AddRoom(View):
 
 
 class RoomList(View):
+    """
+    Takes all records from database and send it in context in rendered template.
+    """
+
     def get(self, request):
-        rooms = ConferenceRoom.objects.all()
+        rooms = ConferenceRoom.objects.all()  # takes all data from database
         return render(request, "room-list.html", context={"rooms": rooms})
 
 
 class DeleteRoom(View):
+    """
+    Deletes room from database by its id.
+    """
+
     def get(self, request, room_id):
         room = ConferenceRoom.objects.get(id=room_id)
         room.delete()
+        return redirect("room-list")
+
+
+class ModifyRoom(View):
+    """
+    Edits room by its id and save changes to database.
+    """
+
+    def get(self, request, room_id):
+        room = ConferenceRoom.objects.get(id=room_id)
+        return render(request, 'edit-room.html', context={"room": room})
+
+    def post(self, request, room_id):
+        # gets data from form
+        room = ConferenceRoom.objects.get(id=room_id)
+        name = request.POST.get("name")
+        capacity = int(request.POST.get("capacity"))
+        projector = request.POST.get("projector") == "on"
+
+        # checks if form is properly filled up
+        if not name:
+            return render(request, "edit-room.html", context={"error": "Name was not given", "room": room})
+        if capacity <= 0:
+            return render(request, "add-room.html",
+                          context={"error": "Room capacity cant be less than 0", "room": room})
+        if name != room.room_name and ConferenceRoom.objects.filter(
+                room_name=name).first():  # checks if room with this name already exist
+            return render(request, "add-room.html",
+                          context={"error": "Room with this name already exist.", "room": room})
+
+        # update records in database
+        ConferenceRoom.objects.filter(id=room_id).update(room_name=name, room_capacity=capacity,
+                                                         projector_availability=projector)
         return redirect("room-list")
