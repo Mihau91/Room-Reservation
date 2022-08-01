@@ -44,4 +44,4 @@ class AddRoom(View):
 class RoomList(View):
     def get(self, request):
         rooms = ConferenceRoom.objects.all()
-        return render(request, "room-list.html", context={"rooms": rooms-})
+        return render(request, "room-list.html", context={"rooms": rooms})

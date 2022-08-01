@@ -20,7 +20,7 @@ from room_app.views import MainPage, AddRoom, RoomList
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainPage.as_view(), name='main-page'),
-    path('add-room/', AddRoom.as_view(), name='add-room'),
-    path('room-list/', RoomList.as_view(), name="room-list"),
+    path('room/new/', AddRoom.as_view(), name='add-room'),
+    path('room/list/', RoomList.as_view(), name="room-list"),
 
 ]
