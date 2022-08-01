@@ -45,3 +45,10 @@ class RoomList(View):
     def get(self, request):
         rooms = ConferenceRoom.objects.all()
         return render(request, "room-list.html", context={"rooms": rooms})
+
+
+class DeleteRoom(View):
+    def get(self, request, room_id):
+        room = ConferenceRoom.objects.get(id=room_id)
+        room.delete()
+        return redirect("room-list")
