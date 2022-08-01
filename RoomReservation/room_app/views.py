@@ -93,3 +93,9 @@ class ModifyRoom(View):
         ConferenceRoom.objects.filter(id=room_id).update(room_name=name, room_capacity=capacity,
                                                          projector_availability=projector)
         return redirect("room-list")
+
+
+class RoomReservation(View):
+    def get(self, request, room_id):
+        room = ConferenceRoom.objects.get(id=room_id)
+        return render(request, "room-reservation.html", context={"room": room})

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Room</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'error.css' %}" type="text/css">
+     <link rel="stylesheet" href="{% static 'style_form.css' %}" type="text/css">
+</head>
+<body>
+<h2>Room Reservation System</h2>
+<!-- Nav -->
+<div class="nav">
+    <ul>
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/room/list/" class="nav-link"><em>Rooms list</em></a></li>
+        <li><a href="/room/new/" class="nav-link">Add Room</a></li>
+    </ul>
+</div>
+<!-- Nav -->
+<!-- error -->
+{% if error %}
+<div class="center">
+<p>{{error}}</p>
+</div>
+{% endif %}
+
+
+<!-- Form -->
+
+<form action="" method="post">{% csrf_token %}
+    <label>Reservation Date:
+        <input type="date" name="reservation-date" class="feedback-input" max="3000-12-31" min="1000-01-01"/>
+    </label>
+    <label>Comment:
+        <textarea name="comment" class="feedback-input" placeholder="Comment"></textarea>
+    </label>
+
+    <input type="submit" value="RESERVE"/>
+</form>
+<!-- Form -->
+
+<!-- Footer -->
+<div class="footer">
+    <p style="color: White">Author: Michal Czarnecki</p>
+</div>
+<!-- Footer -->
+</body>
+</html>
