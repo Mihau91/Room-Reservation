@@ -124,3 +124,10 @@ class RoomReservations(View):
 
         RoomReservation.objects.create(room_id=room, date=date, comment=comment)
         return redirect("room-list")
+
+
+class RoomDetails(View):
+    def get(self, request, room_id):
+        room = ConferenceRoom.objects.get(id=room_id)
+        reservations = room.roomreservation_set.filter(date__gte=str(datetime.date.today())).order_by('date')
+        return render(request, "room-details.html", context={"room": room, "reservations": reservations})
