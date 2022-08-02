@@ -33,6 +33,22 @@
 </form>
 <!-- Form -->
 
+<!-- All reservations -->
+<div>
+  <div>
+    <h3>Rezerwacje</h3>
+    <ul">
+      {% for reservation in reservations %}
+      <li class="feedback-input">
+        <h4>{{ reservation.date }}</h4>
+        <p>{{ reservation.comment }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+<!-- All reservations -->
+
 <!-- error -->
 {% if error %}
 <div class="center">

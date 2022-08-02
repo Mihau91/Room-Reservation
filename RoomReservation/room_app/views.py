@@ -108,29 +108,38 @@ class RoomReservations(View):
 
     def get(self, request, room_id):
         room = ConferenceRoom.objects.get(id=room_id)
-        return render(request, "room-reservation.html", context={"room": room})
+        reservations = room.roomreservation_set.filter(date__gte=str(datetime.date.today())).order_by('date')
+        return render(request, "room-reservation.html", context={"room": room, "reservations": reservations})
 
     def post(self, request, room_id):
         # takes data from form
         room = ConferenceRoom.objects.get(id=room_id)
         date = request.POST.get('reservation-date')
         comment = request.POST.get("comment")
+        reservations = room.roomreservation_set.filter(date__gte=str(datetime.date.today())).order_by('date')
 
         # checks if date is set.
         if not date:
-            return render(request, "room-reservation.html", context={"room": room, "error": "Set a date!"})
+            return render(request, "room-reservation.html",
+                          context={"room": room, "error": "Set a date!", "reservations": reservations})
         # checks if room isn't reserved.
         if RoomReservation.objects.filter(room_id=room, date=date):
-            return render(request, "room-reservation.html", context={"room": room, "error": "Room is already reserved"})
+            return render(request, "room-reservation.html",
+                          context={"room": room, "error": "Room is already reserved", "reservations": reservations})
         # checks if date is not from past.
         if date < str(datetime.date.today()):
-            return render(request, "room-reservation.html", context={"room": room, "error": "Date is from the past"})
+            return render(request, "room-reservation.html",
+                          context={"room": room, "error": "Date is from the past", "reservations": reservations})
 
         RoomReservation.objects.create(room_id=room, date=date, comment=comment)
         return redirect("room-list")
 
 
 class RoomDetails(View):
+    """
+    Renders template with room details.
+    """
+
     def get(self, request, room_id):
         room = ConferenceRoom.objects.get(id=room_id)
         reservations = room.roomreservation_set.filter(date__gte=str(datetime.date.today())).order_by('date')
