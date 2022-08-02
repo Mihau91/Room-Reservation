@@ -28,6 +28,7 @@
         <th><span>Room ID</span></th>
         <th><span>Name</span></th>
         <th><span>Capacity</span></th>
+        <th><span>Room Availability</span></th>
         <th><span>Projector Availability</span></th>
       </tr>
     </thead>
@@ -37,6 +38,11 @@
         <th>{{room.id}}</th>
         <td><a href="/room/{{room.id}}/">{{room.room_name}}</a></td>
         <td>{{room.room_capacity}}</td>
+        {% if room.reserved %}
+        <td style="color: red">Reserved</td>
+        {% else %}
+        <td style="color: green">Available</td>
+        {% endif %}
         {% if room.projector_availability %}
         <td>&#9745;</td>
         {% else %}
@@ -47,6 +53,8 @@
         <td><a href="/room/delete/{{room.id}}/">Delete</a></td>
         <td><a href="/room/reserve/{{room.id}}/">Reserve</a></td>
       </tr>
+    {% empty %}
+    <tr><td  colspan="6">No rooms available</td></tr>
     {% endfor %}
 
     </tbody>

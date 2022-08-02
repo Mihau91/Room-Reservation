@@ -49,6 +49,10 @@ class RoomList(View):
 
     def get(self, request):
         rooms = ConferenceRoom.objects.all()  # takes all data from database
+        for room in rooms:
+            reservation_dates = [reservation.date for reservation in
+                                 room.roomreservation_set.all()]  # for each room take list of dates
+            room.reserved = datetime.date.today() in reservation_dates  # checks if room is available today
         return render(request, "room-list.html", context={"rooms": rooms})
 
 
