@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Room List</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'table.css' %}" type="text/css">
+</head>
+<body>
+<h2>Room Reservation System</h2>
+<!-- Nav -->
+<div class="nav">
+  <ul>
+    <li><a href="/" class="nav-link">Home</a></li>
+    <li><a href="/room/list/" class="nav-link"><em>Rooms list</em></a></li>
+    <li><a href="/room/new/" class="nav-link">Add Room</a></li>
+  </ul>
+</div>
+<!-- Nav -->
+
+<!-- Table -->
+<body>
+ <div id="wrapper">
+  <table id="keywords" cellspacing="0" cellpadding="0">
+    <thead>
+      <tr>
+        <th><span>Room ID</span></th>
+        <th><span>Name</span></th>
+        <th><span>Capacity</span></th>
+        <th><span>Room Availability</span></th>
+        <th><span>Projector Availability</span></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for room in rooms %}
+      <tr>
+        <th>{{room.id}}</th>
+        <td><a href="/room/{{room.id}}/">{{room.room_name}}</a></td>
+        <td>{{room.room_capacity}}</td>
+        {% if room.reserved %}
+        <td style="color: red">Reserved</td>
+        {% else %}
+        <td style="color: green">Available</td>
+        {% endif %}
+        {% if room.projector_availability %}
+        <td>&#9745;</td>
+        {% else %}
+        <td>&#9746;</td>
+        {% endif %}
+        <td></td>
+        <td><a href="/room/modify/{{room.id}}/">Edit</a></td>
+        <td><a href="/room/delete/{{room.id}}/">Delete</a></td>
+        <td><a href="/room/reserve/{{room.id}}/">Reserve</a></td>
+      </tr>
+    {% empty %}
+    <tr><td  colspan="6">No rooms available</td></tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+ </div>
+</body>
+<!-- Table -->
+
+<!-- Footer -->
+<div class="footer">
+  <p>Author: Michal Czarnecki</p>
+</div>
+<!-- Footer -->
+</body>
+</html>

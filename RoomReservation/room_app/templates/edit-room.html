@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+    <title>Edit Room</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'style_form.css' %}" type="text/css">
+</head>
+<body>
+<h2>Room Reservation System</h2>
+<!-- Nav -->
+<div class="nav">
+    <ul>
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/room/list/" class="nav-link"><em>Rooms list</em></a></li>
+        <li><a href="/room/new/" class="nav-link">Add Room</a></li>
+    </ul>
+</div>
+<!-- Nav -->
+<!-- error -->
+{% if error %}
+<div class="center">
+<p style="color: red">{{error}}</p>
+</div>
+{% endif %}
+
+
+<!-- Form -->
+
+<form action="" method="post">{% csrf_token %}
+    <label>Room Name
+        <input name="name" type="text" class="feedback-input" placeholder="Room Name" value="{{room.room_name}}"/>
+    </label>
+    <label>Room Capacity
+        <input name="capacity" type="number" step="1" class="feedback-input" value="{{room.room_capacity}}" />
+    </label>
+    <label>Projector available?
+        <input type="checkbox" name="projector" class="feedback-input" {% if room.projector_availability %} checked {% endif %}/>
+    </label>
+
+    <input type="submit" value="SUBMIT"/>
+</form>
+<!-- Form -->
+
+<!-- Footer -->
+<div class="footer">
+    <p style="color: White">Author: Michal Czarnecki</p>
+</div>
+<!-- Footer -->
+</body>
+</html>
